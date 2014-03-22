@@ -1,0 +1,21 @@
+{
+    "name": "czogori/scaffold",
+    "description": "",
+    "keywords": [ "scaffold" ],
+    "license": "MIT",
+    "require": {
+       "twig/twig": "v1.15.1",
+	   "symfony/console": "2.4",
+       "symfony/finder": "2.4"
+    },
+    "authors": [
+        {
+            "name": "Arek Jaskólski",
+            "email": "arek.jaskolski@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"Scaffold": "src/"}
+    },
+    "bin": ["bin/scaffold"]
+}
