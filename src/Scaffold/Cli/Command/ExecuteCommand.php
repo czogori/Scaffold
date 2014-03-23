@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument,
 use Symfony\Component\Finder\Finder;
 use Scaffold\Scaffolder;
 
-class ExecuteCommand extends Command
+class ExecuteCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -25,10 +25,10 @@ class ExecuteCommand extends Command
     {
         $arguments = $input->getArguments();
 
-        $scaffolder = new Scaffolder();
+        $scaffolder = $this->getContainer()->get('scaffold.scaffolder');
 
         $finder = new Finder();
-        $finder->files()->in(__DIR__.'/../../../../temp/vars');
+        $finder->files()->in($this->getContainer()->getParameter('scaffold.variables_path'));
 
         foreach ($finder as $file) {
             require_once $file->getRealpath();
@@ -43,7 +43,7 @@ class ExecuteCommand extends Command
 
         $content = $scaffolder->scaffold();
 
-        file_put_contents(__DIR__.'/../../../../out/test.php', $content);
+        file_put_contents($this->getContainer()->getParameter('scaffold.output_path') . '/test.php', $content);
     }
 }
 

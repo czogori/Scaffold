@@ -12,8 +12,11 @@ class ScaffoldApplication extends Application
     {
         parent::__construct('Scaffold', '0.1.0');
 
+        $scaffold = new Scaffold();
+        $container = $scaffold->getContainer();
+
         $this->addCommands(array(
-            new ExecuteCommand('exe'),
+            new ExecuteCommand('exe', $container),
         ));
     }
 }

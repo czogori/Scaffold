@@ -5,6 +5,12 @@ namespace Scaffold;
 class Scaffolder
 {
 	private $variables = array();
+    private $templatePath;
+
+    public function __construct($templatePath)
+    {
+        $this->templatePath = $templatePath;
+    }
 
 	public function scaffold()
 	{
@@ -13,8 +19,7 @@ class Scaffolder
 
 	public function getCode()
     {
-    	$dir =  __DIR__.'/../../temp';
-    	$loader = new \Twig_Loader_Filesystem($dir);
+    	$loader = new \Twig_Loader_Filesystem($this->templatePath);
         $twig = new \Twig_Environment($loader, array(
             'autoescape' => false,
             'strict_variables' => true,
