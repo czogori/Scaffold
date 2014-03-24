@@ -16,7 +16,7 @@ class ScaffoldApplication extends Application
         $container = $scaffold->getContainer();
 
         $this->addCommands(array(
-            new ExecuteCommand('exe', $container),
+            new ExecuteCommand('execute', $container),
         ));
     }
 }
