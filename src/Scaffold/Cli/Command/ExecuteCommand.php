@@ -18,14 +18,22 @@ class ExecuteCommand extends ContainerAwareCommand
     {
         $this
             ->setDescription('Execute scaffold')
+            ->addArgument('template_name', InputArgument::REQUIRED, 'Template name')
+            ->addOption('output', 'out', InputOption::VALUE_OPTIONAL, 'Output path')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $arguments = $input->getArguments();
+        $templateName = $input->getArgument('template_name');
+        if ($input->getOption('output')) {
+            $outputPath = $input->getOption('output') . '/' . $templateName;
+        } else {
+            $outputPath = $this->getContainer()->getParameter('scaffold.output_path') . '/' . $templateName;
+        }
 
         $scaffolder = $this->getContainer()->get('scaffold.scaffolder');
+        $scaffolder->setTemplate($templateName);
 
         $finder = new Finder();
         $finder->files()->in($this->getContainer()->getParameter('scaffold.variables_path'));
@@ -43,7 +51,7 @@ class ExecuteCommand extends ContainerAwareCommand
 
         $content = $scaffolder->scaffold();
 
-        file_put_contents($this->getContainer()->getParameter('scaffold.output_path') . '/test.php', $content);
+        file_put_contents($outputPath, $content);
     }
 }
 
