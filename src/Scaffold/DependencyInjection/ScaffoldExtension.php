@@ -6,8 +6,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Reference;
-// use Symfony\Component\Config\FileLocator;
-// use Symfony\Component\Yaml\Yaml;
 
 class ScaffoldExtension implements ExtensionInterface
 {
