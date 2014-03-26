@@ -6,6 +6,7 @@ class Scaffolder
 {
 	private $variables = array();
     private $templatePath;
+    private $templateName;
 
     public function __construct($templatePath)
     {
@@ -16,6 +17,11 @@ class Scaffolder
 	{
 		return $this->getCode();
 	}
+
+    public function setTemplate($templateName)
+    {
+        $this->templateName = $templateName . '.twig';
+    }
 
 	public function getCode()
     {
@@ -29,7 +35,7 @@ class Scaffolder
 
         //$this->addTwigExtensions($twig, $loader);
         //$this->addTwigFilters($twig);
-        $template = $twig->loadTemplate('test.php');
+        $template = $twig->loadTemplate($this->templateName);
         return $template->render($this->variables);
     }
 
