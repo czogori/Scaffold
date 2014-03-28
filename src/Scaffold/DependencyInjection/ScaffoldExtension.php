@@ -17,7 +17,7 @@ class ScaffoldExtension implements ExtensionInterface
         $this->defineParameters($container);
 
         $definition = new Definition('Scaffold\Scaffolder');
-        $definition->setArguments(array('%scaffold.temp_path%'));
+        $definition->setArguments(array('%scaffold.template_path%', '%scaffold.tmp_path%'));
         $container->setDefinition('scaffold.scaffolder', $definition);
     }
 
@@ -55,7 +55,8 @@ class ScaffoldExtension implements ExtensionInterface
     private function defineParameters(ContainerBuilder $container)
     {
         $rootDirectory = getcwd();
-        $container->setParameter('scaffold.temp_path', $rootDirectory . '/temp');
+        $container->setParameter('scaffold.template_path', $rootDirectory . '/temp');
+        $container->setParameter('scaffold.tmp_path', '/tmp/scaffold');
         $container->setParameter('scaffold.variables_path', $rootDirectory . '/temp/vars');
         $container->setParameter('scaffold.output_path', $rootDirectory . '/out');
     }

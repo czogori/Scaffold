@@ -7,10 +7,12 @@ class Scaffolder
 	private $variables = array();
     private $templatePath;
     private $templateName;
+    private $tmpPath;
 
-    public function __construct($templatePath)
+    public function __construct($templatePath, $tmpPath)
     {
         $this->templatePath = $templatePath;
+        $this->tmpPath = $tmpPath;
     }
 
 	public function scaffold()
@@ -30,11 +32,8 @@ class Scaffolder
             'autoescape' => false,
             'strict_variables' => true,
             'debug' => true,
-            'cache' => '/tmp/scaffold',
+            'cache' => $this->tmpPath,
         ));
-
-        //$this->addTwigExtensions($twig, $loader);
-        //$this->addTwigFilters($twig);
         $template = $twig->loadTemplate($this->templateName);
         return $template->render($this->variables);
     }
