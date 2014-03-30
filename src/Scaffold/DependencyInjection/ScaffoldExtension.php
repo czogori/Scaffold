@@ -5,7 +5,6 @@ namespace Scaffold\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use Symfony\Component\DependencyInjection\Reference;
 
 class ScaffoldExtension implements ExtensionInterface
 {

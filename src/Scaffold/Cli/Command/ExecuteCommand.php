@@ -54,4 +54,3 @@ class ExecuteCommand extends ContainerAwareCommand
         file_put_contents($outputPath, $content);
     }
 }
-

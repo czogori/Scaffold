@@ -2,10 +2,7 @@
 
 namespace Scaffold\Cli;
 
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Yaml\Yaml;
 
 use Scaffold\DependencyInjection\ScaffoldExtension;
 
