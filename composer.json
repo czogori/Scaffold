@@ -10,6 +10,12 @@
         "symfony/dependency-injection": "2.4",
         "symfony/finder": "2.4"
     },
+    "require-dev": {
+        "phpspec/phpspec": "2.0.*@dev"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
     "authors": [
         {
             "name": "Arek Jaskólski",
