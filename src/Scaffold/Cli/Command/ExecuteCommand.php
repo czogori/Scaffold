@@ -14,6 +14,9 @@ use Scaffold\Scaffolder;
 
 class ExecuteCommand extends ContainerAwareCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -23,6 +26,9 @@ class ExecuteCommand extends ContainerAwareCommand
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $templateName = $input->getArgument('template_name');
@@ -34,9 +40,18 @@ class ExecuteCommand extends ContainerAwareCommand
 
         $scaffolder = $this->getContainer()->get('scaffold.scaffolder');
         $scaffolder->setTemplate($templateName);
+        $this->registerVariables($scaffolder);
+        $content = $scaffolder->scaffold();
 
+        file_put_contents($outputPath, $content);
+    }
+
+    private function registerVariables($scaffolder)
+    {
         $finder = new Finder();
-        $finder->files()->in($this->getContainer()->getParameter('scaffold.variables_path'));
+        $finder->files()
+            ->name('*.php')
+            ->in($this->getContainer()->getParameter('scaffold.variables_path'));
 
         foreach ($finder as $file) {
             require_once $file->getRealpath();
@@ -49,8 +64,5 @@ class ExecuteCommand extends ContainerAwareCommand
             $scaffolder->register(array($variableName => $variable->render()));
         }
 
-        $content = $scaffolder->scaffold();
-
-        file_put_contents($outputPath, $content);
     }
 }

@@ -15,17 +15,12 @@ class Scaffolder
         $this->tmpPath = $tmpPath;
     }
 
-    public function scaffold()
-    {
-        return $this->getCode();
-    }
-
     public function setTemplate($templateName)
     {
         $this->templateName = $templateName . '.twig';
     }
 
-    public function getCode()
+    public function scaffold()
     {
         $loader = new \Twig_Loader_Filesystem($this->templatePath);
         $twig = new \Twig_Environment($loader, array(
