@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Filesystem\Filesystem;
 
 use Symfony\Component\Finder\Finder;
-use Scaffold\Scaffolder;
 
 class ListVariablesCommand extends ContainerAwareCommand
 {
