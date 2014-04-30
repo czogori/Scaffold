@@ -31,7 +31,8 @@ class ListVariablesCommand extends ContainerAwareCommand
         $finder = new Finder();
         $finder->files()
             ->name('*.php')
-            ->in($this->getContainer()->getParameter('scaffold.variables_path'));
+            ->in($this->getContainer()->getParameter('scaffold.variables_path'))
+            ->sortByName();
 
         $output->writeln("\n<comment>List available variables.</comment>\n");
         foreach ($finder as $file) {
