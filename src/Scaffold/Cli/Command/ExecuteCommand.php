@@ -56,7 +56,7 @@ class ExecuteCommand extends ContainerAwareCommand
         foreach ($finder as $file) {
             require_once $file->getRealpath();
 
-            $className = rtrim($file->getRelativePathname(), '.php');
+            $className = str_replace('.php', '', $file->getRelativePathname());
             $classNameFqn = '\\' . $className;
             $variableName = lcfirst($className);
 
