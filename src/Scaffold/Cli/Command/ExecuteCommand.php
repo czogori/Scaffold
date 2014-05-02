@@ -9,7 +9,9 @@ use Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Output\OutputInterface,
     Symfony\Component\Filesystem\Filesystem;
 
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Yaml;
 use Scaffold\Scaffolder;
 
 class ExecuteCommand extends ContainerAwareCommand
@@ -31,19 +33,29 @@ class ExecuteCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $templatePath = $this->getContainer()->getParameter('scaffold.template_path');
         $templateName = $input->getArgument('template_name');
+
         if ($input->getOption('output')) {
-            $outputPath = $input->getOption('output') . '/' . $templateName;
+            $outputPath = $input->getOption('output');
         } else {
-            $outputPath = $this->getContainer()->getParameter('scaffold.output_path') . '/' . $templateName;
+            $outputPath = $this->getContainer()->getParameter('scaffold.output_path');
         }
 
-        $scaffolder = $this->getContainer()->get('scaffold.scaffolder');
-        $scaffolder->setTemplate($templateName);
-        $this->registerVariables($scaffolder);
-        $content = $scaffolder->scaffold();
+        if (file_exists($templatePath . '/' . $templateName . '.yml')) {
+            $fileLocator = new FileLocator(getcwd());
+            $configFile = $fileLocator->locate($templatePath . '/' . $templateName . '.yml');
+            $config = Yaml::parse($configFile);
 
-        file_put_contents($outputPath, $content);
+            $templates = array_keys($config['templates']);
+            foreach ($templates as $template) {
+                $this->renderTemplate($template, $outputPath . '/' . $template);
+            }
+        } elseif (file_exists($templatePath . '/' . $templateName . '.twig')) {
+            $this->renderTemplate($templateName, $outputPath . '/' . $templateName);
+        } else {
+            $output->writeln(sprintf("\n<error>Template %s doesn't exist.</error>\n", $templateName));
+        }
     }
 
     private function registerVariables($scaffolder)
@@ -64,5 +76,15 @@ class ExecuteCommand extends ContainerAwareCommand
             $scaffolder->register(array($variableName => $variable->render()));
         }
 
+    }
+
+    private function renderTemplate($templateName, $outputPath)
+    {
+        $scaffolder = $this->getContainer()->get('scaffold.scaffolder');
+        $scaffolder->setTemplate($templateName);
+        $this->registerVariables($scaffolder);
+        $content = $scaffolder->scaffold();
+
+        file_put_contents($outputPath, $content);
     }
 }
