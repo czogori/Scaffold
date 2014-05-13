@@ -18,6 +18,10 @@ class ScaffoldExtension implements ExtensionInterface
         $definition = new Definition('Scaffold\Scaffolder');
         $definition->setArguments(array('%scaffold.template_path%', '%scaffold.tmp_path%'));
         $container->setDefinition('scaffold.scaffolder', $definition);
+
+        $definition = new Definition('Scaffold\Variable\Model');
+        $container->setDefinition('model.variable', $definition);
+
     }
 
     /**
