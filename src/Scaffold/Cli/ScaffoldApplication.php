@@ -6,7 +6,6 @@ use Symfony\Component\Console\Application;
 
 use Scaffold\Cli\Command\ExecuteCommand;
 use Scaffold\Cli\Command\ListVariablesCommand;
-use Scaffold\Cli\Command\ModelCommand;
 
 class ScaffoldApplication extends Application
 {
@@ -20,7 +19,6 @@ class ScaffoldApplication extends Application
         $this->addCommands(array(
             new ExecuteCommand('execute', $container),
             new ListVariablesCommand('vars', $container),
-            new ModelCommand('model', $container),
         ));
     }
 }
