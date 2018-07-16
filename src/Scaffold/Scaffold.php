@@ -2,7 +2,6 @@
 
 namespace Scaffold;
 
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -103,9 +102,7 @@ class Scaffold
     private function getItems($templatePath)
     {
         if (file_exists($templatePath)) {
-            $fileLocator = new FileLocator(getcwd());
-            $configFile = $fileLocator->locate($templatePath);
-            return Yaml::parse($configFile);
+            return Yaml::parse(file_get_contents($templatePath));
         } else {
             throw new \Exception('Brak pliku ' . $templatePath);
         }
